@@ -9,6 +9,7 @@ set -euxo pipefail
 PUBLIC_IP_ACCESS="true"
 NODENAME=$(hostname -s)
 POD_CIDR="192.168.0.0/16"
+MASTER_PUBLIC_IP=""
 
 # Pull required images
 
@@ -26,8 +27,8 @@ elif [[ "$PUBLIC_IP_ACCESS" == "true" ]]; then
     # Change for local cluster
     # MASTER_PUBLIC_IP=$(curl ifconfig.me && echo "")
     MASTER_PRIVATE_IP=$(ip addr show eth0 | awk '/inet / {print $2}' | cut -d/ -f1)
-    MASTER_PUBLIC_IP=$(ip addr show eth1 | awk '/inet / {print $2}' | cut -d/ -f1)
-    sudo kubeadm init --apiserver-advertise-address="$MASTER_PRIVATE_IP" --control-plane-endpoint="$MASTER_PUBLIC_IP" --apiserver-cert-extra-sans="$MASTER_PUBLIC_IP" --pod-network-cidr="$POD_CIDR" --node-name "$NODENAME" --ignore-preflight-errors Swap
+    # MASTER_PUBLIC_IP=$(ip addr show eth1 | awk '/inet / {print $2}' | cut -d/ -f1)
+    sudo kubeadm init --apiserver-advertise-address="$MASTER_PRIVATE_IP" --apiserver-cert-extra-sans="$MASTER_PUBLIC_IP" --pod-network-cidr="$POD_CIDR" --node-name "$NODENAME" --ignore-preflight-errors Swap
 
 else
     echo "Error: MASTER_PUBLIC_IP has an invalid value: $PUBLIC_IP_ACCESS"
