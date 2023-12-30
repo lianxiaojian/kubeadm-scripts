@@ -38,6 +38,8 @@ net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
+sudo sed -i 's/net.ipv4.ip_forward/# net.ipv4.ip_forward/' sysctl.conf
+
 sudo sysctl --system
 
 cat <<EOF | sudo tee /etc/apt/sources.list.d/devel:kubic:libcontainers:stable.list
