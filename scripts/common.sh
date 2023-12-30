@@ -38,7 +38,7 @@ net.ipv4.ip_forward                 = 1
 net.bridge.bridge-nf-call-ip6tables = 1
 EOF
 
-sudo sed -i 's/net.ipv4.ip_forward/# net.ipv4.ip_forward/' sysctl.conf
+sudo sed -i 's/net.ipv4.ip_forward/# net.ipv4.ip_forward/' /etc/sysctl.conf
 
 sudo sysctl --system
 
